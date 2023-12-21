@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Rock Paper Scissors</title>
+
+        <style>
+            body{
+                background-color: rgb(25,25,25);
+                margin : 20px;
+            }
+            .mainbut1, .mainbut2, .mainbut3{
+                margin-top: 0px;
+                background-color: rgb(25,25,25);
+                margin-left: 10px;
+                margin-right: 20px;
+                width : 130px;
+                height : 130px;
+                border-style: solid;
+                border-radius: 100px;
+                border-color: white;
+                transition: opacity 0.15s;
+                cursor: pointer;
+            }
+            .mainbut1:active, .mainbut2:active, .mainbut3:active{
+                opacity: 0.2;
+            }
+            .emoji{
+                width : 50px;
+            }
+            .title{
+                font-family: sans-serif;
+                color : white;
+                font-size: 33px;
+                font-weight: bold;
+            }
+            .show{
+                font-family: sans-serif;
+                color : white;
+                font-size: 20px;
+            }
+            .take{
+                font-family: sans-serif;
+                color : white;
+                font-size: 26px;
+                font-weight: bold;
+            }
+            .moves1{
+                width : 40px;
+            }
+            .showcase{
+                color : white;
+                font-family: sans-serif;
+                font-size: 17px;
+            }
+            .reset{
+                width: 130px;
+                height : 45px;
+                font-size: 20px;
+                cursor: pointer;
+            }
+        </style>
+    </head>
+
+    <body>
+        <p class = "title">Rock Paper Scissors</p>
+        <button onclick = "
+        plyr = 'Rock'; initiate();"class = "b1 mainbut1"><img class = "emoji" src = "https://supersimple.dev/projects/rock-paper-scissors/images/rock-emoji.png"></button>
+        <button onclick = "
+        plyr = 'Paper'; initiate();"class = "b2 mainbut2"><img class = "emoji" src = "https://supersimple.dev/projects/rock-paper-scissors/images/paper-emoji.png"></button>
+        <button onclick = "
+        plyr = 'Scissors'; initiate();"class = "b3 mainbut3"><img class = "emoji" src = "https://supersimple.dev/projects/rock-paper-scissors/images/scissors-emoji.png"></button>
+       
+
+        <p class = "display take"></p>
+        <p class = "moves showcase"></p>
+        <p class = "score show">Wins : 0 Losses : 0 Ties : 0</p>
+        <button class = "reset" onclick = "res = ''; disp(); moveData(); getScore();">Reset Score</button>
+
+        <script>
+            let plyr = '', comp = '', res = '';
+
+            const score = {
+                wins : 0,
+                losses : 0,
+                ties : 0
+            };
+
+            function randGen(){
+                const n = Math.random();
+                if(n >= 0 && n < 1/3)
+                    return 'Rock';
+                else if(n >= 1/3 && n < 2/3)
+                    return 'Paper';
+                else
+                    return 'Scissors';
+            }
+
+            function result(){
+                if(plyr === 'Rock'){
+                    if(comp === 'Rock'){
+                        score.ties++;
+                        return 'Tie';
+                    }
+                    else if(comp === 'Paper'){
+                        score.losses++;
+                        return 'You Lose';
+                    }
+                    else{
+                        score.wins++;
+                        return 'You Win';
+                    }
+                }
+                else if(plyr === 'Paper'){
+                    if(comp === 'Rock'){
+                        score.wins++;
+                        return 'You Win';
+                    }
+                    else if(comp === 'Paper'){
+                        score.ties++;
+                        return 'Tie';
+                    }
+                    else{
+                        score.losses++;
+                        return 'You Lose';
+                    }
+                }
+                else{
+                    if(comp === 'Rock'){
+                        score.losses++;
+                        return 'You Lose';
+                    }
+                    else if(comp === 'Paper'){
+                        score.wins++;
+                        return 'You Win';
+                    }
+                    else{
+                        score.ties++;
+                        return 'You Tie';
+                    }
+                }
+            }
+
+            function disp(){
+                const resDisplay = document.querySelector('.display');
+                resDisplay.innerHTML = res;
+            }
+
+            function moveData(){
+                const moveDisplay = document.querySelector('.moves');
+                if(res != '')
+                    moveDisplay.innerHTML = `You : ${giveImg(plyr)}  ${giveImg(comp)} : Computer`;
+                else
+                    moveDisplay.innerHTML = '';
+            }
+
+            function giveImg(val){
+                if(val == 'Rock'){
+                    return '<img class = "moves1" src = "https://supersimple.dev/projects/rock-paper-scissors/images/rock-emoji.png">'
+                }
+                else if(val == 'Paper'){
+                    return '<img class = "moves1" src = "https://supersimple.dev/projects/rock-paper-scissors/images/paper-emoji.png">'
+                }
+                else{
+                    return '<img class = "moves1" src = "https://supersimple.dev/projects/rock-paper-scissors/images/scissors-emoji.png">'
+                }
+            }
+
+            function getScore(){
+                const scoreDisplay = document.querySelector('.score');
+                if(res != ''){
+                    scoreDisplay.innerHTML = `Wins : ${score.wins} Losses : ${score.losses} Ties : ${score.ties}`;
+                }
+                else{
+                    score.wins = 0; score.losses = 0; score.ties = 0;
+                    scoreDisplay.innerHTML = 'Wins : 0 losses : 0 Ties : 0';
+                }
+            }
+
+            function initiate(){
+                comp = randGen();
+                res = result();
+                disp();
+                moveData();
+                getScore();
+            }
+        </script>
+    </body>
+</html>
